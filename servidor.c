@@ -29,13 +29,13 @@ int main(int argc, char** argv) {
 
     if(bind(servidor_fd, (struct sockaddr *)&servidor_addr, sizeof(servidor_addr))<0){
         printf("Error bind\n");
-        close(servidor_fd);
-        exit;
+        //close(servidor_fd);
+        exit(1);
     }
     if(listen(servidor_fd,1)<0){
         printf("Error listen\n");
-        close(servidor_fd);
-        exit;
+        //close(servidor_fd);
+        exit(1);
     }
     
     while(1){
@@ -44,18 +44,17 @@ int main(int argc, char** argv) {
         
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
             printf("Error accept\n");
-            continue;
         }
         printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
         char *mensaje = "HOLAAAAAA\n";
 
         send(cliente_fd,&mensaje, strlen(mensaje),0);
         mensaje = "Segundo mensaje.\n";
-        sen(cliente_fd, &mensaje, strlen(mensaje),0);
+        send(cliente_fd, &mensaje, strlen(mensaje),0);
 
-        close(cliente_fd);
+        //close(cliente_fd);
     }
 
-    close(servidor_fd);
+    //close(servidor_fd);
     return 0;
 }
