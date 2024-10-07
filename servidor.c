@@ -48,6 +48,7 @@ int main(int argc, char** argv) {
         printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
         char *mensaje = "HOLAAAAAA\n";
 
+        // parte c
         send(cliente_fd,mensaje, strlen(mensaje),0);
         mensaje = "Segundo mensaje.\n";
         send(cliente_fd, mensaje, strlen(mensaje),0);
