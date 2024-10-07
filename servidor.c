@@ -8,35 +8,54 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#define BUFFER 1014
+
 int main(int argc, char** argv) {
 
-    char* mensaje = "hola";
     int puerto = 8080;
+    int servidor_fd, cliente_fd;
     struct sockaddr_in servidor_addr, cliente_addr;
+    socklen_t cliente_len = sizeof(cliente_addr);
+    char buffer[BUFFER];
+    
+    
+    
+    if((servidor_fd = socket(AF_INET, SOCK_STREAM, 0))<0){
+        printf("Error socket");
+    }
     servidor_addr.sin_family = AF_INET;
     servidor_addr.sin_addr.s_addr = htons(INADDR_ANY); // Aceptar conexiones de cualquier IP
     servidor_addr.sin_port = htons(puerto);
-    
-    int servidor_fd, cliente_fd;
-    if(servidor_fd = socket(AF_INET, SOCK_STREAM, 0)<0){
-        printf("Error socket");
-    }
+
     if(bind(servidor_fd, (struct sockaddr *)&servidor_addr, sizeof(servidor_addr))<0){
         printf("Error bind\n");
+        close(servidor_fd);
+        exit;
     }
     if(listen(servidor_fd,1)<0){
         printf("Error listen\n");
+        close(servidor_fd);
+        exit;
     }
     
     while(1){
         printf("hola\n");
-        socklen_t cliente_len = sizeof(cliente_addr);
+        
         
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
             printf("Error accept\n");
-            exit (1);
+            continue;
         }
-        send(cliente_fd,&mensaje, sizeof(mensaje),0);
-        //close(cliente_fd);
+        printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
+        char *mensaje = "HOLAAAAAA\n";
+
+        send(cliente_fd,&mensaje, strlen(mensaje),0);
+        mensaje = "Segundo mensaje.\n";
+        sen(cliente_fd, &mensaje, strlen(mensaje),0);
+
+        close(cliente_fd);
     }
+
+    close(servidor_fd);
+    return 0;
 }
