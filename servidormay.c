@@ -76,7 +76,7 @@ int main(int argc, char** argv) {
             perror("Error al recibir datos");
         }
 
-        close(cliente_fd);  // Cerrar la conexión con el cliente
+        //close(cliente_fd);  // Cerrar la conexión con el cliente
     }
 
     //close(servidor_fd);
