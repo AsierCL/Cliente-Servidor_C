@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
     char buffer[BUFFER_SIZE];
     int n;
     FILE *inputFile, *outputFile;
-    char inputFileName[100], outputFileName[100], line[1024];
+    char inputFileName[100], outputFileName[100], line[BUFFER_SIZE];
     strcpy(inputFileName, argv[1]);
     strcpy(outputFileName, argv[1]); // Copiar la cadena a outputFileName
     for (int i = 0; outputFileName[i] != '\0'; i++) {
