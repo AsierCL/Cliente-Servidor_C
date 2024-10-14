@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
@@ -62,7 +63,7 @@ int main(int argc, char** argv) {
         while((n = recv(cliente_fd, buffer, BUFFER, 0)) > 0) {
             buffer[n] = '\0';  // Asegurar el final del string
             printf("Mensaje recibido: %s", buffer);
-
+            sleep(1);
             // Convertir el mensaje a mayúsculas
             for(int i = 0; buffer[i] != '\0'; i++) {
                 buffer[i] = toupper(buffer[i]);
