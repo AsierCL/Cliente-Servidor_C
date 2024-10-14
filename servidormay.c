@@ -79,6 +79,6 @@ int main(int argc, char** argv) {
         close(cliente_fd);  // Cerrar la conexión con el cliente
     }
 
-    close(servidor_fd);
+    //close(servidor_fd);
     return 0;
 }
