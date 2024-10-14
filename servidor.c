@@ -52,10 +52,8 @@ int main(int argc, char** argv) {
         send(cliente_fd,mensaje, strlen(mensaje),0);
         mensaje = "Segundo mensaje.\n";
         send(cliente_fd, mensaje, strlen(mensaje),0);
-
-        //close(cliente_fd);
     }
+    close(servidor_fd);
 
-    //close(servidor_fd);
     return 0;
 }
