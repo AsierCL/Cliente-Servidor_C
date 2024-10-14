@@ -14,7 +14,7 @@
 int main(int argc, char** argv) {
 
     int puerto = 8080;
-    int servidor_fd, cliente_fd;
+    int servidor_fd, cliente_fd, n;
     struct sockaddr_in servidor_addr, cliente_addr;
     socklen_t cliente_len = sizeof(cliente_addr);
     char buffer[BUFFER];
@@ -39,22 +39,25 @@ int main(int argc, char** argv) {
         exit(1);
     }
     
-    while((n = recv(socket_fd, buffer, BUFFER_SIZE,0))>0){
+    while((n = recv(servidor_fd, buffer, BUFFER,0))>0){
 
-        
-        
-        if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
+        if(n<0){
+            perror("Error al recibir.\n");
+        }else{
+            buffer[n] = '\0';
+            printf("Mensaje recibido: %s", buffer);
+            for(int i = 0;buffer[i] != '\0'; i++ ){
+                buffer[i]=toupper(buffer[i]);
+            }
+            if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
             printf("Error accept\n");
+            }
+            printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
+            
+
+        // parte c
+            send(cliente_fd,buffer, strlen(buffer),0);
         }
-        printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
-        // char *mensaje = "HOLAAAAAA\n";
-
-        // // parte c
-        // send(cliente_fd,mensaje, strlen(mensaje),0);
-        // mensaje = "Segundo mensaje.\n";
-        // send(cliente_fd, mensaje, strlen(mensaje),0);
-
-        //close(cliente_fd);
     }
 
     //close(servidor_fd);
