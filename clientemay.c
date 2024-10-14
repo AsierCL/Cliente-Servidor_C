@@ -66,13 +66,14 @@ int main(int argc, char *argv[]) {
         send(socket_fd,line, strlen(line),0);
         n = recv(socket_fd, buffer, BUFFER_SIZE,0);
         //n = recv(socket_fd, buffer, BUFFER_SIZE - 1, 0);
-        if (n < 0) {
-            perror("Error al recibir");
-        } else {
-            buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
-            printf("Mensaje recibido: %s", buffer);
-            printf("Número de bytes recibidos: %d\n", n);
-            fputs(buffer, outputFile);
+            if (n < 0) {
+                perror("Error al recibir");
+            } else {
+                buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
+                printf("Mensaje recibido: %s", buffer);
+                printf("Número de bytes recibidos: %d\n", n);
+                fputs(line, outputFile);
+            }
         }
     }
 
