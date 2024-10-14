@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     // Escuchar conexiones entrantes
     if(listen(servidor_fd, 1) < 0){
         perror("Error en el listen");
-        close(servidor_fd);
+        //close(servidor_fd);
         exit(1);
     }
 
@@ -52,7 +52,7 @@ int main(int argc, char** argv) {
         // Aceptar una conexión
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len)) < 0){
             perror("Error al aceptar la conexión");
-            close(servidor_fd);
+            //close(servidor_fd);
             exit(1);
         }
 
