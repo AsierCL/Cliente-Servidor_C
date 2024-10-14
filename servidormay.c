@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     // Enlazar el socket al puerto
     if(bind(servidor_fd, (struct sockaddr *)&servidor_addr, sizeof(servidor_addr)) < 0){
         perror("Error en el bind");
-        close(servidor_fd);
+        //close(servidor_fd);
         exit(1);
     }
 
