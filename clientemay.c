@@ -75,7 +75,6 @@ int main(int argc, char *argv[]) {
                 fputs(line, outputFile);
             }
         }
-    }
 
     close(socket_fd); // Cerrar el socket del cliente
     return 0;

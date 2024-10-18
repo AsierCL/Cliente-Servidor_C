@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    //sleep(1); // Esperar un breve tiempo antes de recibir el mensaje
+    sleep(1); // Esperar un breve tiempo antes de recibir el mensaje
 
     // Recibir el mensaje del servidor
     while((n = recv(socket_fd, buffer, BUFFER_SIZE,0))>0){

@@ -19,29 +19,28 @@ int main(int argc, char** argv) {
     char buffer[BUFFER];
     
     
-    
+    // Crear el socket
     if((servidor_fd = socket(AF_INET, SOCK_STREAM, 0))<0){
         printf("Error socket");
     }
+    // Configuración de la dirección del servidor.
     servidor_addr.sin_family = AF_INET;
     servidor_addr.sin_addr.s_addr = htons(INADDR_ANY); // Aceptar conexiones de cualquier IP
     servidor_addr.sin_port = htons(puerto);
 
+    // Enlazar el socket
     if(bind(servidor_fd, (struct sockaddr *)&servidor_addr, sizeof(servidor_addr))<0){
-        printf("Error bind\n");
+        printf("Error al enlazar el socket.\n");
         //close(servidor_fd);
         exit(1);
     }
     if(listen(servidor_fd,1)<0){
-        printf("Error listen\n");
+        printf("Error al escuchar.\n");
         //close(servidor_fd);
         exit(1);
     }
     
     while(1){
-        printf("hola\n");
-        
-        
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
             printf("Error accept\n");
         }
