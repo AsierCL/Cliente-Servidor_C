@@ -17,6 +17,9 @@ int main(int argc, char** argv) {
     struct sockaddr_in servidor_addr, cliente_addr;
     socklen_t cliente_len = sizeof(cliente_addr);
     char buffer[BUFFER];
+
+    char *mensaje1 = "HOLAAAAA. Primer mensaje.";
+    char *mensaje2 = "ADIOSSSSS. Segundo mensaje.";
     
     
     // Crear el socket
@@ -39,20 +42,30 @@ int main(int argc, char** argv) {
         //close(servidor_fd);
         exit(1);
     }
-    
-    while(1){
+
+    printf("Esperando conexiones...\n");
+
+    /* Ejecicio 1 parte c*/
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
-            printf("Error accept\n");
+            printf("Error al aceptar la conexión.\n");
         }
         printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
-        char *mensaje = "HOLAAAAAA\n";
+        send(cliente_fd,mensaje1, strlen(mensaje1),0);
+        send(cliente_fd, mensaje2, strlen(mensaje2),0);
+        printf("Mensajes enviados.\n");
 
-        // parte c
-        send(cliente_fd,mensaje, strlen(mensaje),0);
-        mensaje = "Segundo mensaje.\n";
-        send(cliente_fd, mensaje, strlen(mensaje),0);
-    }
-    close(servidor_fd);
+    // while(1){
+    //     if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
+    //         printf("Error al aceptar la conexión.\n");
+    //     }
+    //     printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
+    
+    //     send(cliente_fd,mensaje1, strlen(mensaje1),0);
+    //     send(cliente_fd, mensaje2, strlen(mensaje2),0);
+    //     printf("Mensajes enviados.\n");
+    // }
+    //close(servidor_fd);
+
 
     return 0;
 }
