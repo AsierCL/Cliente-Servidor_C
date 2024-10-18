@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 27
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -16,8 +16,10 @@ int main(int argc, char *argv[]) {
     int puerto = atoi(argv[2]);
     int socket_fd;
     struct sockaddr_in servidor_addr;
-    char buffer[BUFFER_SIZE];
+    char buffer[BUFFER_SIZE+1]; // Aumentamos el tamaño para el terminador nulo.
     int n;
+
+    printf("Tamaño del buffer: %d bytes.\n", BUFFER_SIZE);
 
     // Crear el socket
     if ((socket_fd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
@@ -37,45 +39,30 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    sleep(1); // Esperar un breve tiempo antes de recibir el mensaje
+    
 
-    /*  Ejercicio 1 parte c*/
+    /*  Ejercicio 1 parte
+        sleep(1);  // Esperamos un breve tiempo para que el servidor envie el mensaje.
         n = recv(socket_fd, buffer, BUFFER_SIZE - 1, 0);
         if (n < 0) {
             perror("Error al recibir");
         } else {
             buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
-            printf("Mensaje recibido: %s\n", buffer);
+            printf("Mensaje recibido: %s.", buffer);
+            printf("\n");
             printf("Número de bytes recibidos: %d\n", n);
         }
-    // while((n = recv(socket_fd, buffer, BUFFER_SIZE,0))>0){
-    //     //n = recv(socket_fd, buffer, BUFFER_SIZE - 1, 0);
-    //     if (n < 0) {
-    //         perror("Error al recibir");
-    //     } else {
-    //         buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
-    //         printf("Mensaje recibido: %s", buffer);
-    //         printf("Número de bytes recibidos: %d\n", n);
-    //     }
-    // }
-    // n = recv(socket_fd, buffer, BUFFER_SIZE - 1, 0);
-    // if (n < 0) {
-    //     perror("Error al recibir");
-    // } else {
-    //     buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
-    //     printf("Mensaje recibido: %s", buffer);
-    //     printf("Número de bytes recibidos: %d\n", n);
-    // }
+    */
 
-    // Volver a recibir el segundo mensaje
-    // n = recv(socket_fd, buffer, BUFFER_SIZE - 1, 0);
-    // if (n < 0) {
-    //     perror("Error al recibir");
-    // } else {
-    //     buffer[n] = '\0';
-    //     printf("Mensaje recibido: %s", buffer);
-    //     printf("Número de bytes recibidos: %d\n", n);
-    // }
+    while((n = recv(socket_fd, buffer, BUFFER_SIZE,0))>0){
+    
+        buffer[n] = '\0'; // Asegurar que el buffer sea una cadena
+        printf("Mensaje recibido: %s. ", buffer);
+        printf("Número de bytes recibidos: %d\n", n);
+    }
+    if (n < 0) {
+        perror("Error al recibir");
+    }
 
     close(socket_fd); // Cerrar el socket del cliente
     return 0;

@@ -21,11 +21,11 @@ int main(int argc, char** argv) {
     char *mensaje1 = "HOLAAAAA. Primer mensaje.";
     char *mensaje2 = "ADIOSSSSS. Segundo mensaje.";
     
-    
     // Crear el socket
     if((servidor_fd = socket(AF_INET, SOCK_STREAM, 0))<0){
         printf("Error socket");
     }
+
     // Configuración de la dirección del servidor.
     servidor_addr.sin_family = AF_INET;
     servidor_addr.sin_addr.s_addr = htons(INADDR_ANY); // Aceptar conexiones de cualquier IP
@@ -37,7 +37,7 @@ int main(int argc, char** argv) {
         //close(servidor_fd);
         exit(1);
     }
-    if(listen(servidor_fd,1)<0){
+    if(listen(servidor_fd,1) < 0){
         printf("Error al escuchar.\n");
         //close(servidor_fd);
         exit(1);
@@ -45,15 +45,18 @@ int main(int argc, char** argv) {
 
     printf("Esperando conexiones...\n");
 
-    /* Ejecicio 1 parte c*/
+    /* Ejecicio 1 parte*/
+
         if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
             printf("Error al aceptar la conexión.\n");
         }
+        
         printf("Conexión aceptada de %s:%d\n", inet_ntoa(cliente_addr.sin_addr), ntohs(cliente_addr.sin_port));
         send(cliente_fd,mensaje1, strlen(mensaje1),0);
         send(cliente_fd, mensaje2, strlen(mensaje2),0);
         printf("Mensajes enviados.\n");
-
+    
+    
     // while(1){
     //     if((cliente_fd = accept(servidor_fd, (struct sockaddr *)&cliente_addr, &cliente_len))<0){
     //         printf("Error al aceptar la conexión.\n");
